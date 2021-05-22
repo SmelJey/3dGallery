@@ -22,6 +22,7 @@ public class WorldController : MonoBehaviour
             if (paths == null || paths.Length == 0)
             {
                 _currentRoom = Instantiate(roomPrefab).GetComponent<RoomController>();
+                // _currentRoom.transform.parent = defaultGameObject.transform;
                 return;
             }
 
@@ -31,6 +32,7 @@ public class WorldController : MonoBehaviour
                 {
                     _oldRoom = _currentRoom;
                     _currentRoom = Instantiate(roomPrefab).GetComponent<RoomController>();
+                    // _currentRoom.transform.parent = defaultGameObject.transform;
                     if (_oldRoom != null)
                     {
                         _oldRoom.rightWall.SetActive(false);

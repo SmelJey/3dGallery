@@ -39,7 +39,6 @@ public class RoomController : MonoBehaviour
         var localScale = imageTransform.localScale;
         localScale = new Vector3(localScale.x, 1.0f, localScale.x * imageProp.height / imageProp.width);
         imageTransform.localScale = localScale;
-        imageTransform.parent = defaultGameObject.transform;
 
         myImageEntries[idx] = new ImageEntry(material, imageProp, localScale);
     }
