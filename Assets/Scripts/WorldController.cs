@@ -22,7 +22,7 @@ public class WorldController : MonoBehaviour
             if (paths == null || paths.Length == 0)
             {
                 _currentRoom = Instantiate(roomPrefab).GetComponent<RoomController>();
-                // _currentRoom.transform.parent = defaultGameObject.transform;
+                _currentRoom.transform.SetParent(defaultGameObject.transform);
                 return;
             }
 
@@ -32,7 +32,7 @@ public class WorldController : MonoBehaviour
                 {
                     _oldRoom = _currentRoom;
                     _currentRoom = Instantiate(roomPrefab).GetComponent<RoomController>();
-                    // _currentRoom.transform.parent = defaultGameObject.transform;
+                    _currentRoom.transform.SetParent(defaultGameObject.transform);
                     if (_oldRoom != null)
                     {
                         _oldRoom.rightWall.SetActive(false);
@@ -40,7 +40,7 @@ public class WorldController : MonoBehaviour
                         _currentRoom.leftWall.SetActive(false);
                     }
                 }
-                
+
                 _currentRoom.SetupImage(i % 6, paths[i], defaultGameObject);
             }
         });
@@ -77,7 +77,7 @@ public class WorldController : MonoBehaviour
 
             _currentRoom.GetImages()[i % 6].material = imageEntries[i].Image;
             _currentRoom.GetImages()[i % 6].gameObject.tag = "Image";
-            
+
             _currentRoom.GetImages()[i % 6].transform.localScale = imageEntries[i].LocalScale;
         }
 
