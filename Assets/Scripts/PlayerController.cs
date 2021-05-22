@@ -57,7 +57,10 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (Input.touchCount == 2) {
+        if (Input.touchCount == 1) {
+            Vector2 delta = Input.touches[0].deltaPosition;
+            imageViewer.Translate(delta, Quaternion.identity);
+        } else if (Input.touchCount == 2) {
             Touch t1 = Input.touches[0];
             Touch t2 = Input.touches[1];
 
@@ -68,14 +71,6 @@ public class PlayerController : MonoBehaviour {
                 var currentFingersDistance = Vector2.Distance(t1.position, t2.position);
                 var scaleFactor = currentFingersDistance / initialFingersDistance;
                 imageViewer.Scale = initialScale * scaleFactor;
-
-
-                Vector2 delta1 = t1.deltaPosition;
-                Vector2 delta2 = t2.deltaPosition;
-                float minX = Mathf.Abs(delta1.x) < Mathf.Abs(delta2.x) ? delta1.x : delta2.x;
-                float minY = Mathf.Abs(delta1.y) < Mathf.Abs(delta2.y) ? delta1.y : delta2.y;
-                
-                imageViewer.Translate(new Vector2(minX, minY), Quaternion.identity);
             }
         }
         

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WorldController : MonoBehaviour
 {
     [SerializeField] private GameObject roomPrefab;
+    [SerializeField] private Text favBtnText;
 
     private RoomController _oldRoom;
     private RoomController _currentRoom;
@@ -13,6 +15,7 @@ public class WorldController : MonoBehaviour
     [SerializeField] private GameObject defaultGameObject;
     private GameObject favoriteGameObject;
     private FavouritesController favouritesController;
+    private bool isFav = false;
 
     void Start() {
         myPlayerController = FindObjectOfType<PlayerController>();
@@ -65,6 +68,7 @@ public class WorldController : MonoBehaviour
     }
 
     public void ToFavorite() {
+        isFav = true;
         _currentRoom = null;
         favoriteGameObject = new GameObject("Favorite");
 
@@ -92,10 +96,6 @@ public class WorldController : MonoBehaviour
             }
 
             _currentRoom.SetupImage(i, imageEntries[i]);
-            // _currentRoom.GetImages()[i % 6].material = imageEntries[i].Image;
-            // _currentRoom.GetImages()[i % 6].gameObject.tag = "Image";
-            //
-            // _currentRoom.GetImages()[i % 6].transform.localScale = imageEntries[i].LocalScale;
         }
 
         _oldRoom = null;
@@ -103,8 +103,8 @@ public class WorldController : MonoBehaviour
         defaultGameObject.SetActive(false);
     }
 
-    public void ToDefault()
-    {
+    public void ToDefault() {
+        isFav = false;
         defaultGameObject.SetActive(true);
         favoriteGameObject.SetActive(false);
         
@@ -113,10 +113,12 @@ public class WorldController : MonoBehaviour
 
     public void SwitchMode() {
         myPlayerController.Teleport(new Vector3(0, 2, 0));
-        if (defaultGameObject.activeInHierarchy) {
+        if (!isFav) {
             ToFavorite();
+            favBtnText.text = "All";
         } else {
             ToDefault();
+            favBtnText.text = "Fav";
         }
         myPlayerController.Teleport(new Vector3(0, 2, 0));
     }
