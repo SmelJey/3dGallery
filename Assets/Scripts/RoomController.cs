@@ -8,23 +8,24 @@ public class RoomController : MonoBehaviour
 
     [SerializeField] public MeshRenderer imageF1, imageF2, imageF3, imageB1, imageB2, imageB3;
 
-    private NativeGallery.ImageProperties[] myImageProps = new NativeGallery.ImageProperties[6];
+    private ImageEntry[] myImageEntries = new ImageEntry[6];
     
     public MeshRenderer[] GetImages() => new[] {imageF1, imageF2, imageF3, imageB1, imageB2, imageB3};
-    public NativeGallery.ImageProperties GetImageProp(int idx) => myImageProps[idx];
 
-    public NativeGallery.ImageProperties GetImageProp(MeshRenderer image) {
+    public ImageEntry GetImageEntry(int idx) => myImageEntries[idx];
+
+    public ImageEntry GetImageEntry(MeshRenderer image) {
         var images = GetImages();
         for (int i = 0; i < 6; i++) {
             if (images[i] == image) {
-                return GetImageProp(i);
+                return GetImageEntry(i);
             }
         }
 
-        return new NativeGallery.ImageProperties();
+        return null;
     }
 
-    public void SetupImage(int idx, string path) {
+    public void SetupImage(int idx, string path, GameObject defaultGameObject) {
         var material = new Material(Shader.Find("UI/Default"))
         {
             mainTexture = NativeGallery.LoadImageAtPath(path)
@@ -38,7 +39,8 @@ public class RoomController : MonoBehaviour
         var localScale = imageTransform.localScale;
         localScale = new Vector3(localScale.x, 1.0f, localScale.x * imageProp.height / imageProp.width);
         imageTransform.localScale = localScale;
+        imageTransform.parent = defaultGameObject.transform;
 
-        myImageProps[idx] = imageProp;
+        myImageEntries[idx] = new ImageEntry(material, imageProp, localScale);
     }
 }
