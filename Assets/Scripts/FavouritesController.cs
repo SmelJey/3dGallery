@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class FavouritesController : MonoBehaviour {
-    private List<ImageEntry> myFavourites;
+    private List<ImageEntry> myFavourites = new List<ImageEntry>();
     
     public List<ImageEntry> GetImages() {
         return myFavourites;

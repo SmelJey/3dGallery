@@ -22,6 +22,9 @@ public class WorldController : MonoBehaviour
             if (paths == null || paths.Length == 0)
             {
                 _currentRoom = Instantiate(roomPrefab).GetComponent<RoomController>();
+                for (int i = 0; i < 6; i++) {
+                    _currentRoom.SetupEmpty(i);
+                }
                 // _currentRoom.transform.parent = defaultGameObject.transform;
                 return;
             }
@@ -41,7 +44,7 @@ public class WorldController : MonoBehaviour
                     }
                 }
                 
-                _currentRoom.SetupImage(i % 6, paths[i], defaultGameObject);
+                _currentRoom.SetupImage(i % 6, paths[i]);
             }
         });
 
@@ -90,9 +93,5 @@ public class WorldController : MonoBehaviour
         favoriteGameObject.SetActive(false);
         defaultGameObject.SetActive(true);
         Destroy(favoriteGameObject);
-    }
-
-    void Update()
-    {
     }
 }

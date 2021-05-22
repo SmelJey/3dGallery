@@ -25,7 +25,7 @@ public class RoomController : MonoBehaviour
         return null;
     }
 
-    public void SetupImage(int idx, string path, GameObject defaultGameObject) {
+    public void SetupImage(int idx, string path) {
         var material = new Material(Shader.Find("UI/Default"))
         {
             mainTexture = NativeGallery.LoadImageAtPath(path)
@@ -41,5 +41,12 @@ public class RoomController : MonoBehaviour
         imageTransform.localScale = localScale;
 
         myImageEntries[idx] = new ImageEntry(material, imageProp, localScale);
+    }
+    
+    public void SetupEmpty(int idx) {
+        var material = new Material(Shader.Find("UI/Default"));
+        GetImages()[idx].gameObject.tag = "Image";
+
+        myImageEntries[idx] = new ImageEntry(material, new NativeGallery.ImageProperties(), Vector3.one);
     }
 }
