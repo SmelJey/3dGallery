@@ -56,6 +56,7 @@ public class ImageViewer : MonoBehaviour {
         isInfo = false;
         infoPanel.gameObject.SetActive(isInfo);
         gameObject.SetActive(false);
+        image.transform.localScale = new Vector3(1, 1, 1);
         
         image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, originalSize.x);
         image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, originalSize.y);
@@ -77,6 +78,19 @@ public class ImageViewer : MonoBehaviour {
         infoLabel.text = $"Image info \n" +
                          $"Size: {myCurrentImage.Properties.width} x {myCurrentImage.Properties.height} \n";
         infoPanel.gameObject.SetActive(isInfo);
+    }
+
+    public Vector3 Scale {
+        get {
+            return image.transform.localScale;
+        }
+        set {
+            if (!IsShowing) {
+                return;
+            }
+
+            image.transform.localScale = value;
+        }
     }
 
     public bool IsShowing => gameObject.activeInHierarchy;
