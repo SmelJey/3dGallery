@@ -38,6 +38,7 @@ public class WorldController : MonoBehaviour
                     mainTexture = NativeGallery.LoadImageAtPath(paths[i])
                 };
                 _currentRoom.GetImages()[i % 6].material = material;
+                _currentRoom.GetImages()[i % 6].gameObject.tag = "Image";
                 var imageProp = NativeGallery.GetImageProperties(paths[i]);
                 var imageTransform = _currentRoom.GetImages()[i % 6].transform;
                 var localScale = imageTransform.localScale;

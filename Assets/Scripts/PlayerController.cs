@@ -14,10 +14,14 @@ public class PlayerController : MonoBehaviour {
     private CharacterController myCharacterController;
     private Camera myCamera;
     private bool isAfterFixed = false;
+    private Material myDefaultMaterial;
 
     private void Awake() {
         myCharacterController = GetComponent<CharacterController>();
         myCamera = GetComponentInChildren<Camera>();
+        var primitive = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        primitive.SetActive(false);
+        myDefaultMaterial = primitive.GetComponent<MeshRenderer>().material;
     }
 
     private void Update() {
@@ -27,7 +31,7 @@ public class PlayerController : MonoBehaviour {
         Move(movement.normalized);
 
         if (Input.GetMouseButtonDown(0)) {
-            if (EventSystem.current.IsPointerOverGameObject()) {
+            if (EventSystem.current.IsPointerOverGameObject() || imageViewer.IsShowing) {
                 return;
             }
 
@@ -40,7 +44,9 @@ public class PlayerController : MonoBehaviour {
             }
 
             var meshRenderer = hit.collider.GetComponent<MeshRenderer>();
-            imageViewer.SetImage(meshRenderer.material);
+            if (meshRenderer.material != myDefaultMaterial) {
+                imageViewer.SetImage(meshRenderer.material);
+            }
         }
     }
 
