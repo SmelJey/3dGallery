@@ -32,18 +32,8 @@ public class WorldController : MonoBehaviour
                         _currentRoom.leftWall.SetActive(false);
                     }
                 }
-
-                var material = new Material(Shader.Find("UI/Default"))
-                {
-                    mainTexture = NativeGallery.LoadImageAtPath(paths[i])
-                };
-                _currentRoom.GetImages()[i % 6].material = material;
-                _currentRoom.GetImages()[i % 6].gameObject.tag = "Image";
-                var imageProp = NativeGallery.GetImageProperties(paths[i]);
-                var imageTransform = _currentRoom.GetImages()[i % 6].transform;
-                var localScale = imageTransform.localScale;
-                localScale = new Vector3(localScale.x, 1.0f, localScale.x * imageProp.height / imageProp.width);
-                imageTransform.localScale = localScale;
+                
+                _currentRoom.SetupImage(i % 6, paths[i]);
             }
         });
     }

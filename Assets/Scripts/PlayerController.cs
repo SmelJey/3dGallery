@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 
             var meshRenderer = hit.collider.GetComponent<MeshRenderer>();
             if (meshRenderer.material != myDefaultMaterial) {
-                imageViewer.SetImage(new ImageEntry(meshRenderer.material, meshRenderer.transform.localScale));
+                imageViewer.SetImage(new ImageEntry(meshRenderer.material, hit.collider.GetComponentInParent<RoomController>().GetImageProp(meshRenderer)));
             }
         }
     }

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
 public class ImageEntry {
-    public ImageEntry(Material image, Vector3 size) {
+    public ImageEntry(Material image, NativeGallery.ImageProperties properties) {
         Image = image;
-        Size = size;
+        Properties = properties;
     }
         
     public Material Image { get; }
-    public Vector3 Size { get; }
+    public NativeGallery.ImageProperties Properties { get; }
 }
