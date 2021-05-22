@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour {
@@ -7,6 +8,8 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField] private float movespeed;
     [SerializeField] private Vector2 cameraSpeed;
+
+    [SerializeField] private ImageViewer imageViewer;
 
     private CharacterController myCharacterController;
     private Camera myCamera;
@@ -22,6 +25,23 @@ public class PlayerController : MonoBehaviour {
         movement += transform.right * moveJoystick.Horizontal;
         movement += transform.forward * moveJoystick.Vertical;
         Move(movement.normalized);
+
+        if (Input.GetMouseButtonDown(0)) {
+            if (EventSystem.current.IsPointerOverGameObject()) {
+                return;
+            }
+
+            var ray = myCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit);
+
+            if (hit.collider == null || !hit.collider.CompareTag("Image")) {
+                return;
+            }
+
+            var meshRenderer = hit.collider.GetComponent<MeshRenderer>();
+            imageViewer.SetImage(meshRenderer.material);
+        }
     }
 
     private void Move(Vector3 direction) {
