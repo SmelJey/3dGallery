@@ -57,53 +57,28 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        Touch t1 = Input.touches[0];
-        Touch t2 = Input.touches[1];
+        if (Input.touchCount == 2) {
+            Touch t1 = Input.touches[0];
+            Touch t2 = Input.touches[1];
 
-        if (t1.phase == TouchPhase.Began || t2.phase == TouchPhase.Began) {
-            initialFingersDistance = Vector2.Distance(t1.position, t2.position);
-            initialScale = imageViewer.Scale;
-        } else if (t1.phase == TouchPhase.Moved || t2.phase == TouchPhase.Moved) {
-            var currentFingersDistance = Vector2.Distance(t1.position, t2.position);
-            var scaleFactor = currentFingersDistance / initialFingersDistance;
-            imageViewer.Scale = initialScale * scaleFactor;
-
-            float Dx = t1.position.x - transform.position.x;
-            float Dy = t1.position.y - transform.position.y;
+            if (t1.phase == TouchPhase.Began || t2.phase == TouchPhase.Began) {
+                initialFingersDistance = Vector2.Distance(t1.position, t2.position);
+                initialScale = imageViewer.Scale;
+            } else if (t1.phase == TouchPhase.Moved || t2.phase == TouchPhase.Moved) {
+                var currentFingersDistance = Vector2.Distance(t1.position, t2.position);
+                var scaleFactor = currentFingersDistance / initialFingersDistance;
+                imageViewer.Scale = initialScale * scaleFactor;
 
 
-            //var cameraTransform = Camera.main.transform.InverseTransformPoint(0, 0, 0);
-            //transform.position = Camera.main.ScreenToWorldPoint(new Vector3(t2.position.x, t2.position.y, cameraTransform.z -0.5f));
-
-
-         //    Vector3 pos = t2.position;
-         //
-         //    //Vector3 pos = t1.position - t2.position;
-         //    Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(pos.x, pos.y, 10));
-         //    transform.position = Vector3.Lerp(transform.position, touchedPos, Time.deltaTime * 4);
-         // //   transform.position += touchedPos;
-         //
-         //    float pinchAmount = 0;
-         //    Quaternion desiredRotation = transform.rotation;
-         //
-         //    TouchLogic.Calculate();
-         //
-         //    if (Mathf.Abs(TouchLogic.pinchDistanceDelta) > 0)
-         //    { // zoom
-         //        pinchAmount = TouchLogic.pinchDistanceDelta;
-         //    }
-         //
-         //    if (Mathf.Abs(TouchLogic.turnAngleDelta) > 0)
-         //    { // rotate
-         //        Vector3 rotationDeg = Vector3.zero;
-         //        rotationDeg.z = -TouchLogic.turnAngleDelta;
-         //        desiredRotation *= Quaternion.Euler(rotationDeg);
-         //    }
-         //
-         //    // not so sure those will work:
-         //    transform.rotation = desiredRotation;
-         //    transform.position += Vector3.forward * pinchAmount;
+                Vector2 delta1 = t1.deltaPosition;
+                Vector2 delta2 = t2.deltaPosition;
+                float minX = Mathf.Abs(delta1.x) < Mathf.Abs(delta2.x) ? delta1.x : delta2.x;
+                float minY = Mathf.Abs(delta1.y) < Mathf.Abs(delta2.y) ? delta1.y : delta2.y;
+                
+                imageViewer.Translate(new Vector2(minX, minY), Quaternion.identity);
+            }
         }
+        
     }
 
     private void Move(Vector3 direction) {

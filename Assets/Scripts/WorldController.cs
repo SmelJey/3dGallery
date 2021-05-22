@@ -22,8 +22,18 @@ public class WorldController : MonoBehaviour
         {
             if (paths == null || paths.Length == 0)
             {
-                _currentRoom = Instantiate(roomPrefab).GetComponent<RoomController>();
-                for (int i = 0; i < 6; i++) {
+                for (int i = 0; i < 12; i++) {
+                    if (i % 6 == 0) {
+                        _oldRoom = _currentRoom;
+                        _currentRoom = Instantiate(roomPrefab).GetComponent<RoomController>();
+                        _currentRoom.transform.SetParent(defaultGameObject.transform);
+                        if (_oldRoom != null) {
+                            _oldRoom.rightWall.SetActive(false);
+                            _currentRoom.transform.position = _oldRoom.transform.position + Vector3.forward * 10;
+                            _currentRoom.leftWall.SetActive(false);
+                        }
+                    }
+
                     _currentRoom.SetupEmpty(i);
                 }
                 // _currentRoom.transform.parent = defaultGameObject.transform;
@@ -46,7 +56,7 @@ public class WorldController : MonoBehaviour
                     }
                 }
                 
-                _currentRoom.SetupImage(i % 6, paths[i]);
+                _currentRoom.SetupImage(i, paths[i]);
             }
         });
 
@@ -54,9 +64,8 @@ public class WorldController : MonoBehaviour
         _currentRoom = null;
     }
 
-    public void ToFavorite()
-    {
-        defaultGameObject.SetActive(false);
+    public void ToFavorite() {
+        _currentRoom = null;
         favoriteGameObject = new GameObject("Favorite");
 
         var imageEntries = favouritesController.GetImages();
@@ -82,20 +91,23 @@ public class WorldController : MonoBehaviour
                 }
             }
 
-            _currentRoom.GetImages()[i % 6].material = imageEntries[i].Image;
-            _currentRoom.GetImages()[i % 6].gameObject.tag = "Image";
-
-            _currentRoom.GetImages()[i % 6].transform.localScale = imageEntries[i].LocalScale;
+            _currentRoom.SetupImage(i, imageEntries[i]);
+            // _currentRoom.GetImages()[i % 6].material = imageEntries[i].Image;
+            // _currentRoom.GetImages()[i % 6].gameObject.tag = "Image";
+            //
+            // _currentRoom.GetImages()[i % 6].transform.localScale = imageEntries[i].LocalScale;
         }
 
         _oldRoom = null;
         _currentRoom = null;
+        defaultGameObject.SetActive(false);
     }
 
     public void ToDefault()
     {
-        favoriteGameObject.SetActive(false);
         defaultGameObject.SetActive(true);
+        favoriteGameObject.SetActive(false);
+        
         Destroy(favoriteGameObject);
     }
 
@@ -106,5 +118,6 @@ public class WorldController : MonoBehaviour
         } else {
             ToDefault();
         }
+        myPlayerController.Teleport(new Vector3(0, 2, 0));
     }
 }

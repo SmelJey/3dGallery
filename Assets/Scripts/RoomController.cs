@@ -31,22 +31,35 @@ public class RoomController : MonoBehaviour
             mainTexture = NativeGallery.LoadImageAtPath(path)
         };
         
-        GetImages()[idx].material = material;
-        GetImages()[idx].gameObject.tag = "Image";
+        GetImages()[idx % 6].material = material;
+        GetImages()[idx % 6].gameObject.tag = "Image";
 
         var imageProp = NativeGallery.GetImageProperties(path);
-        var imageTransform = GetImages()[idx].transform;
+        var imageTransform = GetImages()[idx % 6].transform;
         var localScale = imageTransform.localScale;
         localScale = new Vector3(localScale.x, 1.0f, localScale.x * imageProp.height / imageProp.width);
         imageTransform.localScale = localScale;
 
-        myImageEntries[idx] = new ImageEntry(material, imageProp, localScale);
+        myImageEntries[idx % 6] = new ImageEntry(idx, material, imageProp, localScale);
+    }
+
+    public void SetupImage(int idx, ImageEntry image) {
+        GetImages()[idx % 6].material = image.Image;
+        GetImages()[idx % 6].gameObject.tag = "Image";
+
+        var imageTransform = GetImages()[idx % 6].transform;
+        var localScale = imageTransform.localScale;
+        localScale = new Vector3(localScale.x, 1.0f, localScale.x * image.Properties.height / image.Properties.width);
+        imageTransform.localScale = localScale;
+
+        myImageEntries[idx % 6] = new ImageEntry(image.Id, image.Image, image.Properties, localScale);
     }
     
     public void SetupEmpty(int idx) {
         var material = new Material(Shader.Find("UI/Default"));
-        GetImages()[idx].gameObject.tag = "Image";
+        GetImages()[idx % 6].gameObject.tag = "Image";
 
-        myImageEntries[idx] = new ImageEntry(material, new NativeGallery.ImageProperties(), Vector3.one);
+        var prop = new NativeGallery.ImageProperties(100, 100, "RGB24", NativeGallery.ImageOrientation.Normal);
+        myImageEntries[idx % 6] = new ImageEntry(idx, material, prop, Vector3.one);
     }
 }
