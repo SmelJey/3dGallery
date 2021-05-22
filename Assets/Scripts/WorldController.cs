@@ -38,6 +38,11 @@ public class WorldController : MonoBehaviour
                     mainTexture = NativeGallery.LoadImageAtPath(paths[i])
                 };
                 _currentRoom.GetImages()[i % 6].material = material;
+                var imageProp = NativeGallery.GetImageProperties(paths[i]);
+                var imageTransform = _currentRoom.GetImages()[i % 6].transform;
+                var localScale = imageTransform.localScale;
+                localScale = new Vector3(localScale.x, 1.0f, localScale.x * imageProp.height / imageProp.width);
+                imageTransform.localScale = localScale;
             }
         });
     }
