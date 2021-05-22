@@ -13,7 +13,11 @@ public class WorldController : MonoBehaviour
     {
         NativeGallery.GetImagesFromGallery(paths =>
         {
-            if (paths == null) return;
+            if (paths == null || paths.Length == 0)
+            {
+                _currentRoom = Instantiate(roomPrefab).GetComponent<RoomController>();
+                return;
+            }
 
             for (var i = 0; i < paths.Length; i++)
             {
@@ -24,7 +28,7 @@ public class WorldController : MonoBehaviour
                     if (_oldRoom != null)
                     {
                         _oldRoom.rightWall.SetActive(false);
-                        _currentRoom.transform.position = _oldRoom.transform.position + Vector3.right * 10;
+                        _currentRoom.transform.position = _oldRoom.transform.position + Vector3.forward * 10;
                         _currentRoom.leftWall.SetActive(false);
                     }
                 }
