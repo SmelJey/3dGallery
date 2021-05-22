@@ -5,6 +5,7 @@ public class ImageViewer : MonoBehaviour {
     [SerializeField] private Image image;
     [SerializeField] private RectTransform infoPanel;
     [SerializeField] private Text infoLabel;
+    [SerializeField] private Text favBtnLabel;
     
     private ImageEntry myCurrentImage;
     private Vector2 originalSize;
@@ -42,6 +43,12 @@ public class ImageViewer : MonoBehaviour {
         image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, originalSize.y * normalizedSize.y);
         image.rectTransform.ForceUpdateRectTransforms();
 
+        if (myFavouritesController.IsFav(newImage)) {
+            favBtnLabel.text = "Unfav";
+        } else {
+            favBtnLabel.text = "Fav";
+        }
+        
         gameObject.SetActive(true);
     }
 
@@ -55,7 +62,14 @@ public class ImageViewer : MonoBehaviour {
     }
 
     public void AddFavourite() {
-        myFavouritesController.AddImage(myCurrentImage);
+        if (myFavouritesController.IsFav(myCurrentImage)) {
+            myFavouritesController.RemoveImage(myCurrentImage);
+            favBtnLabel.text = "Fav";
+        } else {
+            myFavouritesController.AddImage(myCurrentImage);
+            favBtnLabel.text = "Unfav";
+        }
+        
     }
 
     public void SwitchInfoPanel() {

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class FavouritesController : MonoBehaviour {
     private List<ImageEntry> myFavourites = new List<ImageEntry>();
+    private HashSet<ImageEntry> myFavouritesSet = new HashSet<ImageEntry>();
     
     public List<ImageEntry> GetImages() {
         return myFavourites;
@@ -10,5 +11,15 @@ public class FavouritesController : MonoBehaviour {
     
     public void AddImage(ImageEntry image) {
         myFavourites.Add(image);
+        myFavouritesSet.Add(image);
+    }
+
+    public void RemoveImage(ImageEntry image) {
+        myFavourites.Remove(image);
+        myFavouritesSet.Remove(image);
+    }
+
+    public bool IsFav(ImageEntry image) {
+        return myFavouritesSet.Contains(image);
     }
 }

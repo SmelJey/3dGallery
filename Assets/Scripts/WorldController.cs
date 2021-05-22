@@ -94,4 +94,12 @@ public class WorldController : MonoBehaviour
         defaultGameObject.SetActive(true);
         Destroy(favoriteGameObject);
     }
+
+    public void SwitchMode() {
+        if (defaultGameObject.activeInHierarchy) {
+            ToFavorite();
+        } else {
+            ToDefault();
+        }
+    }
 }
