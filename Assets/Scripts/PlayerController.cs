@@ -18,15 +18,16 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
-        var movement = new Vector2(moveJoystick.Horizontal, moveJoystick.Vertical);
-        Move(movement);
+        var movement = Vector3.zero;
+        movement += transform.right * moveJoystick.Horizontal;
+        movement += transform.forward * moveJoystick.Vertical;
+        Move(movement.normalized);
     }
 
-    private void Move(Vector2 direction) {
-        Debug.Log(myCharacterController.isGrounded);
+    private void Move(Vector3 direction) {
         if (myCharacterController.isGrounded) {
             direction = direction.normalized;
-            myCharacterController.SimpleMove(new Vector3(direction.x, 0, direction.y) * movespeed);
+            myCharacterController.SimpleMove(new Vector3(direction.x, 0, direction.z) * movespeed);
         } else {
             myCharacterController.SimpleMove(new Vector3(0, Physics.gravity.y, 0) * movespeed);
         }
