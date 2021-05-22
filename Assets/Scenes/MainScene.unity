@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 3386335288594605632, guid: 12edf0c74f477054fa485dfac7adacd1, type: 3}
-  defaultGameObject: {fileID: 0}
+  defaultGameObject: {fileID: 1993843121}
 --- !u!4 &112075174
 Transform:
   m_ObjectHideFlags: 0
@@ -1263,7 +1263,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1043459569}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 112075173}
+        m_TargetAssemblyTypeName: WorldController, Assembly-CSharp
+        m_MethodName: SwitchMode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1043459569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1900,6 +1912,7 @@ MonoBehaviour:
   image: {fileID: 260269650}
   infoPanel: {fileID: 37212003}
   infoLabel: {fileID: 1864652237}
+  favBtnLabel: {fileID: 635087932}
 --- !u!1 &1817463417
 GameObject:
   m_ObjectHideFlags: 0
@@ -2069,7 +2082,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1993843121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 175.85239, y: 143.12149, z: 14.43689}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

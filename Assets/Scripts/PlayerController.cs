@@ -24,6 +24,12 @@ public class PlayerController : MonoBehaviour {
         myDefaultMaterial = primitive.GetComponent<MeshRenderer>().material;
     }
 
+    public void Teleport(Vector3 position) {
+        myCharacterController.enabled = false;
+        transform.position = position;
+        myCharacterController.enabled = true;
+    }
+
     private void Update() {
         var movement = Vector3.zero;
         movement += transform.right * moveJoystick.Horizontal;
